@@ -4,6 +4,7 @@
 #include "Node.h"
 
 using namespace std;
+
 //inserts a new value into the tree
 Node* insert(int intput, Node* tree){
   if(tree == NULL){
@@ -67,13 +68,16 @@ Node* remove(int intput, Node* tree){
 }
 
 void printTree(Node* tree, int depth){
+  for (int i = 0; i < depth; i++) {
+    cout<<"\t";
+  }
   if(tree!=NULL){
-    for (int i = 0; i < depth; i++) {
-      cout<<"\t";
-    }
     cout<<tree->getVal()<<endl;
     printTree(tree->getLeft(), depth+1);
     printTree(tree->getRight(), depth+1);
+  }
+  else {
+    cout << "EMPTY" << endl;
   }
 }
 
@@ -83,14 +87,14 @@ int main(){
   int intput;
   Node* tree = NULL;
   while(run == true){
-    cout<<"Add numbers(A)"<<endl<<"Add file(F)"<<endl<<"Remove number(R)"
+    cout<<"Add number(A)"<<endl<<"Add file(F)"<<endl<<"Remove number(R)"
     <<endl<<"Show tree(S)"<<endl<<"Quit(Q)"<<endl;
     cin>>input;
     if(input[0] == 'A'){
-      cout<<"Enter your number(s) separated by spaces"<<endl;
-      while(cin>>intput){
-        tree = insert(intput, tree);
-      }
+      //cout<<"Enter your number(s) separated by spaces"<<endl;
+      cout<<"Enter your number"<<endl;
+      cin>>intput;
+      tree = insert(intput, tree);
       printTree(tree,0);
     }
     else if(input[0] == 'F'){
@@ -106,6 +110,7 @@ int main(){
       cout<<"Enter your number"<<endl;
       cin>>intput;
       tree = remove(intput, tree);
+      printTree(tree,0);
     }
     else if(input[0] == 'S'){
       printTree(tree, 0);
