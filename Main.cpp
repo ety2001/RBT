@@ -2,6 +2,8 @@
 #include <iostream>
 #include <fstream>
 #include "Node.h"
+
+using namespace std;
 //inserts a new value into the tree
 Node* insert(int intput, Node* tree){
   if(tree == NULL){
