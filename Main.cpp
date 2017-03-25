@@ -1,7 +1,7 @@
 // Main.cpp
 #include <iostream>
 #include <fstream>
-#include "Node.h";
+#include "Node.h"
 
 using namespace std;
 //inserts a new value into the tree
