@@ -2,6 +2,8 @@
 
 #include "Node.h"
 
+#define NULL 0
+
 Node::Node(int newval){
   val = newval;
   left = NULL;
