@@ -12,4 +12,4 @@ class Node{
     int getVal();
     void setLeft(Node*);
     void setRight(Node*);
-}
+};
