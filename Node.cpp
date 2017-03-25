@@ -23,7 +23,7 @@ Node* Node::getRight(){
 	return right;
 };
 
-char Node::getVal(){
+int Node::getVal(){
 	return val;
 };
 
