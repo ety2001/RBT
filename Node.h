@@ -4,7 +4,7 @@ class Node{
   private:
     int val;
     Node* left;
-    Node& right;
+    Node* right;
   public:
     Node(int);
     Node* getLeft();
