@@ -177,6 +177,114 @@ void RBnode::printNode (RBnode *p, int indent)
     printNode(p->right, indent+2);
 }
 
+RBnode *RBnode::searchNode(RBnode *p, int val)
+{
+    if (p == RBNULL)
+        return RBNULL;
+    else if (p->value == val)
+        return p;
+    else if (val < p->value) 
+	return searchNode(p->left, val);
+    else
+	return searchNode(p->right, val);
+}
+
+void RBnode::replaceNode(RBnode *p, RBnode *q)
+{
+    if (p->parent == RBNULL)
+    {
+        RBnode::RBroot = q;
+    }
+    else if (p == p->parent->left) 
+    {
+        p->parent->left = q;
+    }
+    else 
+    {
+        p->parent->right = q;
+    }
+
+    q->parent = p->parent;
+}
+
+void RBnode::removefix(RBnode *t)
+{
+    while (t != RBnode::RBroot && t->color == 'b') 
+    {
+        if (t == t->parent->left) 
+	{
+            RBnode *w = t->parent->right;
+	    if (w->color == 'r')
+	    {
+		w->color = 'b';
+		t->parent->color = 'r';
+		leftrotate(t->parent);
+                w = t->parent->right;
+	    }
+
+	    if (w->left->color == 'b' && w->right->color == 'b') 
+	    {
+		w->color = 'r';
+		t = t->parent;
+	    }
+	    else
+	    {
+		if (w->right->color == 'b')
+		{
+	            w->left->color = 'b';
+		    w->color = 'r';
+		    rightrotate(w);
+		    w = t->parent->right;
+		}
+
+		w->color = t->parent->color;
+		t->parent->color = 'b';
+		w->right->color = 'b';
+		leftrotate(t->parent);
+		t = RBnode::RBroot;
+	    }
+	}	
+	else
+	{
+            RBnode *w = t->parent->left;
+	    if (w->color == 'r')
+	    {
+		w->color = 'b';
+		t->parent->color = 'r';
+		rightrotate(t->parent);
+		w = t->parent->left;
+	    }
+
+	    if (w->left->color == 'b' && w->right->color == 'b')
+	    {
+		w->color = 'r';
+		t = t->parent;
+	    }
+	    else
+	    {
+		if (w->left->color == 'b')
+		{
+	            w->right->color = 'b';
+		    w->color = 'r';
+		    leftrotate(w);
+		    w = t->parent->left;
+		}
+
+		w->color = t->parent->color;
+		t->parent->color = 'b';
+		w->left->color = 'b';
+		rightrotate(t->parent);
+		t = RBnode::RBroot;
+	    }
+	}
+    }
+    t->color = 'b';
+}
+
+/*
+ * Top Level Methods
+ */
+
 void RBnode::newRBTree()
 {
     if (RBnode::RBroot != RBNULL)
@@ -235,3 +343,69 @@ void RBnode::print()
     printNode(RBnode::RBroot, 0);
 }
 
+bool RBnode::search(int val)
+{
+    if (searchNode(RBnode::RBroot, val) == RBNULL)
+        return false;
+    return true;
+}
+
+RBnode *RBnode::minimumNode(RBnode *p)
+{
+    while (p->left != RBNULL)
+    {
+        p = p->left;
+    }
+    return p;
+}
+
+void RBnode::remove(int val)
+{
+    RBnode *z = searchNode(RBnode::RBroot, val);
+    if (z == RBNULL)
+    {
+        cout << val << " is not in the tree" << endl;
+        return;
+    }
+ 
+    RBnode *y = z;
+    char yc = y->color;
+    RBnode *x;
+ 
+    if (z->left == RBNULL)
+    {
+        x = z->right; 
+	replaceNode(z, z->right);
+
+    }
+    else if (z->right == RBNULL)
+    {
+        x = z->left;
+	replaceNode(z, z->left);
+    }
+    else
+    {
+        y = minimumNode(z->right);
+	yc = y->color;
+	x = y->right;
+	if (y->parent == z)
+	{
+	    x->parent = y;
+	}
+	else 
+	{
+            replaceNode(y, y->right);
+	    y->right = z->right;
+	    y->right->parent = y;
+	}
+	replaceNode(z, y);
+	y->left = z->left;
+	y->left->parent = y;
+	y->color = z->color;
+    }
+
+    if (yc == 'b')
+    {
+        removefix(x);
+    }
+}
