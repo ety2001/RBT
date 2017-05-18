@@ -1,4 +1,4 @@
-// main.cpp
+// Main.cpp
 
 #include<string.h>
 #include<iostream>
@@ -21,6 +21,8 @@ int main()
         cout << "Add" << endl;
         cout << "Read" << endl;
 	cout << "Print" << endl;
+	cout << "Search" << endl;
+	cout <<"Delete" << endl;
 	cout << "Done" << endl;
 	cout << "Command: ";
 
@@ -44,6 +46,23 @@ int main()
 	{
 	    RBnode::print();
 	}
+	else if (!strcmp(input, "Search"))
+	{
+            cin >> value;
+	    if (RBnode::search(value) == true) 
+	    {
+                cout << value << " is in the tree" << endl;
+	    }
+	    else
+	    {
+                cout << value << " is not in the tree" << endl;
+	    }
+	}
+	else if (!strcmp(input, "Delete"))
+	{
+            cin >> value;
+	    RBnode::remove(value);
+	}
 	else if (!strcmp(input, "Done"))
 	{
 	    done = true;
@@ -52,4 +71,3 @@ int main()
 
     return 1;
 }
-
