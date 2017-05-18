@@ -28,13 +28,18 @@ public:
     // RB Tree
     static RBnode *RBroot;
 
-    static void leftrotate(RBnode *p);
-    static void rightrotate(RBnode *p);
-    static void insertfix(RBnode *t);
-    static void printNode (RBnode *p, int indent);
+    static void   leftrotate(RBnode *p);
+    static void   rightrotate(RBnode *p);
+    static void   insertfix(RBnode *t);
+    static void   printNode (RBnode *p, int indent);
+    static RBnode *searchNode(RBnode *p, int val);
+    static void   replaceNode(RBnode *p, RBnode *q);
+    static RBnode *minimumNode(RBnode *p);
+    static void   removefix(RBnode *t);
 
     static void newRBTree();
     static void insert(int val);
     static void print();
+    static bool search(int val);
+    static void remove(int val);
 };
-
