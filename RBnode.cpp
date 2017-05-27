@@ -98,7 +98,7 @@ void RBnode::insertfix(RBnode *x)
         if (x->parent->parent != RBNULL && x->parent->parent->left == x->parent)
 	{
             y = x->parent->parent->right;
-            if (y->color == 'r')
+            if (y != RBNULL && y->color == 'r')
 	    {
                 y->color = 'b';
                 x->parent->color = 'b';
@@ -204,77 +204,95 @@ void RBnode::replaceNode(RBnode *p, RBnode *q)
         p->parent->right = q;
     }
 
-    q->parent = p->parent;
+    if (q != RBNULL)
+    {
+        q->parent = p->parent;
+    }
 }
 
-void RBnode::removefix(RBnode *t)
+void RBnode::removefix(RBnode *par, RBnode *t)
 {
-    while (t != RBnode::RBroot && t->color == 'b') 
+    while (t != RBnode::RBroot && (t == RBNULL || t->color == 'b'))
     {
-        if (t == t->parent->left) 
+if (t == RBNULL)
+cout << "t = NULL" << ", par = " << par->value << endl;
+else
+cout << "t = " << t->value << ", par = " << par->value << endl;
+
+        if (t == par->left) 
 	{
-            RBnode *w = t->parent->right;
+            RBnode *w = par->right;
 	    if (w->color == 'r')
 	    {
 		w->color = 'b';
-		t->parent->color = 'r';
-		leftrotate(t->parent);
-                w = t->parent->right;
+		par->color = 'r';
+		leftrotate(par);
+                w = par->right;
 	    }
 
-	    if (w->left->color == 'b' && w->right->color == 'b') 
+	    if ((w->left == RBNULL || w->left->color == 'b') && 
+	        (w->right == RBNULL || w->right->color == 'b'))
 	    {
 		w->color = 'r';
-		t = t->parent;
+		t = par;
+		par = t->parent;
 	    }
 	    else
 	    {
-		if (w->right->color == 'b')
+		if (w->right == RBNULL || w->right->color == 'b')
 		{
-	            w->left->color = 'b';
+                    if (w->left != RBNULL)
+	                w->left->color = 'b';
 		    w->color = 'r';
 		    rightrotate(w);
-		    w = t->parent->right;
+		    w = par->right;
 		}
 
-		w->color = t->parent->color;
-		t->parent->color = 'b';
-		w->right->color = 'b';
-		leftrotate(t->parent);
+		w->color = par->color;
+		par->color = 'b';
+		if (w->right != RBNULL)
+		    w->right->color = 'b';
+		leftrotate(par);
 		t = RBnode::RBroot;
+		par = RBNULL;
 	    }
 	}	
 	else
 	{
-            RBnode *w = t->parent->left;
+            RBnode *w = par->left;
 	    if (w->color == 'r')
 	    {
 		w->color = 'b';
-		t->parent->color = 'r';
-		rightrotate(t->parent);
-		w = t->parent->left;
+		par->color = 'r';
+		rightrotate(par);
+		w = par->left;
 	    }
 
-	    if (w->left->color == 'b' && w->right->color == 'b')
+	    if ((w->left == RBNULL || w->left->color == 'b') &&
+		(w->right == RBNULL || w->right->color == 'b'))
 	    {
 		w->color = 'r';
-		t = t->parent;
+		t = par;
+		par = t->parent;
 	    }
 	    else
 	    {
-		if (w->left->color == 'b')
+		if (w->left == RBNULL || w->left->color == 'b')
 		{
-	            w->right->color = 'b';
+		    if (w->right != RBNULL)
+	                w->right->color = 'b';
 		    w->color = 'r';
 		    leftrotate(w);
-		    w = t->parent->left;
+		    w = par->left;
 		}
 
-		w->color = t->parent->color;
-		t->parent->color = 'b';
-		w->left->color = 'b';
-		rightrotate(t->parent);
+		w->color = par->color;
+		par->color = 'b';
+		if (w->left != RBNULL)
+		    w->left->color = 'b';
+		rightrotate(par);
 		t = RBnode::RBroot;
+		par = RBNULL;
 	    }
 	}
     }
@@ -371,26 +389,32 @@ void RBnode::remove(int val)
     RBnode *y = z;
     char yc = y->color;
     RBnode *x;
+    RBnode *xpar;
  
     if (z->left == RBNULL)
     {
         x = z->right; 
+	xpar = z->parent;
 	replaceNode(z, z->right);
-
     }
     else if (z->right == RBNULL)
     {
         x = z->left;
+	xpar = z->parent;
 	replaceNode(z, z->left);
     }
     else
     {
         y = minimumNode(z->right);
+
 	yc = y->color;
 	x = y->right;
+	xpar = y;
 	if (y->parent == z)
 	{
-	    x->parent = y;
+	    if (x != RBNULL) {
+	        x->parent = y;
+            }
 	}
 	else 
 	{
@@ -406,6 +430,6 @@ void RBnode::remove(int val)
 
     if (yc == 'b')
     {
-        removefix(x);
+        removefix(xpar, x);
     }
 }
