@@ -22,7 +22,7 @@ int main()
         cout << "Read" << endl;
 	cout << "Print" << endl;
 	cout << "Search" << endl;
-	cout <<"Delete" << endl;
+	cout << "Delete" << endl;
 	cout << "Done" << endl;
 	cout << "Command: ";
 
