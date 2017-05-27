@@ -214,11 +214,6 @@ void RBnode::removefix(RBnode *par, RBnode *t)
 {
     while (t != RBnode::RBroot && (t == RBNULL || t->color == 'b'))
     {
-if (t == RBNULL)
-cout << "t = NULL" << ", par = " << par->value << endl;
-else
-cout << "t = " << t->value << ", par = " << par->value << endl;
-
         if (t == par->left) 
 	{
             RBnode *w = par->right;
