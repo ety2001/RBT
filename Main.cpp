@@ -17,7 +17,7 @@ int main()
 
     do
     {
-        cout << "RED BLACK TREE " << endl;
+        cout << "*** RED BLACK TREE ***" << endl;
         cout << "Add" << endl;
         cout << "Read" << endl;
 	cout << "Print" << endl;
@@ -27,9 +27,11 @@ int main()
 	cout << "Command: ";
 
         cin.getline(input, 80);
+
 	if (!strcmp(input, "Add"))
 	{
             cin >> value;
+	    cin.ignore();
 	    RBnode::insert(value);
 	}
 	else if (!strcmp(input, "Read"))
@@ -49,6 +51,7 @@ int main()
 	else if (!strcmp(input, "Search"))
 	{
             cin >> value;
+	    cin.ignore();
 	    if (RBnode::search(value) == true) 
 	    {
                 cout << value << " is in the tree" << endl;
@@ -61,6 +64,7 @@ int main()
 	else if (!strcmp(input, "Delete"))
 	{
             cin >> value;
+	    cin.ignore();
 	    RBnode::remove(value);
 	}
 	else if (!strcmp(input, "Done"))
