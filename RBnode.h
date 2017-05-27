@@ -35,7 +35,7 @@ public:
     static RBnode *searchNode(RBnode *p, int val);
     static void   replaceNode(RBnode *p, RBnode *q);
     static RBnode *minimumNode(RBnode *p);
-    static void   removefix(RBnode *t);
+    static void   removefix(RBnode *par, RBnode *t);
 
     static void newRBTree();
     static void insert(int val);
