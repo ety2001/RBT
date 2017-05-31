@@ -423,7 +423,7 @@ void RBnode::remove(int val)
 	y->color = z->color;
     }
 
-    if (yc == 'b')
+    if (yc == 'b' && xpar != RBNULL)
     {
         removefix(xpar, x);
     }
