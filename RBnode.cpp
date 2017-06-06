@@ -291,7 +291,8 @@ void RBnode::removefix(RBnode *par, RBnode *t)
 	    }
 	}
     }
-    t->color = 'b';
+    if (t != RBNULL)
+        t->color = 'b';
 }
 
 /*
@@ -403,17 +404,18 @@ void RBnode::remove(int val)
         y = minimumNode(z->right);
 
 	yc = y->color;
-	x = y->right;
+	x = y->right; 
 	xpar = y;
 	if (y->parent == z)
 	{
 	    if (x != RBNULL) {
 	        x->parent = y;
-            }
+	    }
 	}
 	else 
 	{
-            replaceNode(y, y->right);
+	    xpar = y->parent;
+	    replaceNode(y, y->right);
 	    y->right = z->right;
 	    y->right->parent = y;
 	}
@@ -423,7 +425,7 @@ void RBnode::remove(int val)
 	y->color = z->color;
     }
 
-    if (yc == 'b' && xpar != RBNULL)
+    if (yc == 'b')
     {
         removefix(xpar, x);
     }
